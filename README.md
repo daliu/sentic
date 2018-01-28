@@ -38,7 +38,7 @@ Also, you can use other languages (TODO: EDIT BELOW):
 ```python
 from sentic import SenticPhrase
 text = 'amor'
-sp = SenticPhrase(text, "pt")
+sp = SenticPhrase(text, "fr")
 
 sp.get_sentics(text)
 sp.get_moodtags(text)
