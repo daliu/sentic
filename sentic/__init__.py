@@ -8,7 +8,7 @@ class SenticWord(object):
     Python Interface for Words/Concepts in Senticnet4
     """
     def __init__(self, language="en"):
-        data_module = importlib.import_module("senticnet.babel.data_" + language)
+        data_module = importlib.import_module("sentic.babel.data_" + language)
         self.data = data_module.senticnet
 
     def info(self, concept):

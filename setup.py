@@ -6,14 +6,14 @@ except ImportError:
 packages = ['sentic']
 
 setup(name='sentic',
-      version='0.0.1',
-      description='Sentic(4) Package for NLP',
+      version='0.0.3',
+      description='Sentic Package for NLP',
       long_description=open('README.md').read(),
       author=u'David Liu',
       author_email='7david12liu@gmail.com',
       url='https://github.com/daliu/sentic/',
       packages=['sentic'],
-      package_data={'': ['LICENSE', 'README.md'], 'sentic': []},
+      package_data={'': ['LICENSE', 'README.md'], 'sentic': ['sentic']},
       package_dir={'sentic': 'sentic'},
       include_package_data=True,
       license='MIT',
