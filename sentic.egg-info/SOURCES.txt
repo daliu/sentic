@@ -1,0 +1,10 @@
+LICENSE
+MANIFEST.in
+README.md
+setup.py
+sentic/__init__.py
+sentic.egg-info/PKG-INFO
+sentic.egg-info/SOURCES.txt
+sentic.egg-info/dependency_links.txt
+sentic.egg-info/not-zip-safe
+sentic.egg-info/top_level.txt
