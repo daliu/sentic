@@ -3,7 +3,7 @@ try:
 except ImportError:
     from distutils.core import setup
 
-packages = ['sentic']
+packages = ['sentic', 'sentic.babel']
 
 setup(name='sentic',
       version='0.0.3',
@@ -12,9 +12,9 @@ setup(name='sentic',
       author=u'David Liu',
       author_email='7david12liu@gmail.com',
       url='https://github.com/daliu/sentic/',
-      packages=['sentic'],
-      package_data={'': ['LICENSE', 'README.md'], 'sentic': ['sentic']},
-      package_dir={'sentic': 'sentic'},
+      packages=packages,
+      package_data={'': ['LICENSE', 'README.md'], 'sentic': ['sentic'], 'sentic.babel': ['babel']},
+      package_dir={'sentic': 'sentic', 'sentic.babel': 'sentic/babel'},
       include_package_data=True,
       license='MIT',
       zip_safe=False,
