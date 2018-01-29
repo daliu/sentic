@@ -153,7 +153,10 @@ class SenticPhrase(SenticWord):
                 except KeyError:
                     continue
 
-            return sum_polarity / total_phrases
+            if total_phrases:
+                return sum_polarity / total_phrases
+            else:
+                return 0
 
     def get_sentiment(self, text):
         """
