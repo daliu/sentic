@@ -1,6 +1,26 @@
 # daliu.github.io
 
+
 import importlib
+STOPWORDS = ['i', 'me', 'my', 'myself', 'we', 'our',
+             'ours', 'ourselves', 'you', 'your', 'yours',
+             'yourself', 'yourselves', 'he', 'him', 'his',
+             'himself', 'she', 'her', 'hers', 'herself',
+             'it', 'its', 'itself', 'they', 'them', 'their',
+             'theirs', 'themselves', 'what', 'which', 'who',
+             'whom', 'this', 'that', 'these', 'those', 'am',
+             'is', 'are', 'was', 'were', 'be', 'been', 'being',
+             'have', 'has', 'had', 'having', 'do', 'does', 'did',
+             'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or',
+             'because', 'as', 'until', 'while', 'of', 'at', 'by',
+             'for', 'with', 'about', 'against', 'between', 'into',
+             'through', 'during', 'before', 'after', 'above', 'below',
+             'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over',
+             'under', 'again', 'further', 'then', 'once', 'here', 'there',
+             'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each',
+             'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor',
+             'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's',
+             't', 'can', 'will', 'just', 'don', 'should', 'now']
 
 
 class SenticWord(object):
@@ -83,9 +103,13 @@ class SenticPhrase(SenticWord):
     We use self.is_phrase to postpone throwing KeyError too soon, when evaluating large block of text.
     We also use a 'total' counter sometimes because results may be skewed from non-words like '1, 2, 3...' etc
     """
-    def __init__(self, text, language="en"):
+    def __init__(self, text, language="en", stopwords=True):
         super().__init__(language)
-        self.text = text
+        if stopwords:
+            self.text = ''.join([word for word in text.lower() if word not in STOPWORDS)
+        else:
+            self.text = text.lower()
+
         self.is_phrase = True if text in self.data else False
 
 
