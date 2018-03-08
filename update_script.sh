@@ -1,4 +1,5 @@
 #!/bin/bash
+# Don't forget to modify setup.py with new version
 git add .
 git commit -m "$1"
 git push

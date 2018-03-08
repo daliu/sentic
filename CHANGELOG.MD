@@ -1,7 +1,7 @@
 0.0.4 / 03-07-18
 ==================
 
-Fixed typos
+Fixed typos, Language Issues, Lack of pos/neg for some languages
 
 
 0.0.4 / 02-04-18

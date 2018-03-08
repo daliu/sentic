@@ -54,4 +54,8 @@ sentic/babel/data_tr.py
 sentic/babel/data_ua.py
 sentic/babel/data_ur.py
 sentic/babel/__pycache__/__init__.cpython-35.pyc
+sentic/babel/__pycache__/data_ba.cpython-35.pyc
+sentic/babel/__pycache__/data_ca.cpython-35.pyc
+sentic/babel/__pycache__/data_en.cpython-35.pyc
+sentic/babel/__pycache__/data_fr.cpython-35.pyc
 sentic/babel/__pycache__/data_pt.cpython-35.pyc
