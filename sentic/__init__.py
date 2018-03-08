@@ -83,7 +83,10 @@ class SenticWord(object):
         """
         concept = concept.replace(" ", "_")
         concept_info = self.data[concept]
-        return float(concept_info[7])
+        try:
+            return float(concept_info[7])
+        except ValueError:
+            return 0
 
     def get_semantics(self, concept):
         """
@@ -218,6 +221,4 @@ class SenticPhrase(SenticWord):
                     continue
 
             return all_semantics
-            
-
 
