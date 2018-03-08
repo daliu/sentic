@@ -8,7 +8,10 @@ sentic.egg-info/SOURCES.txt
 sentic.egg-info/dependency_links.txt
 sentic.egg-info/not-zip-safe
 sentic.egg-info/top_level.txt
+sentic/__pycache__/__init__.cpython-35.pyc
+sentic/babel/.DS_Store
 sentic/babel/__init__.py
+sentic/babel/__init__.pyc
 sentic/babel/data_ar.py
 sentic/babel/data_ba.py
 sentic/babel/data_bg.py
@@ -19,6 +22,7 @@ sentic/babel/data_de.py
 sentic/babel/data_dk.py
 sentic/babel/data_ee.py
 sentic/babel/data_en.py
+sentic/babel/data_en.pyc
 sentic/babel/data_es.py
 sentic/babel/data_fi.py
 sentic/babel/data_fr.py
@@ -49,3 +53,5 @@ sentic/babel/data_th.py
 sentic/babel/data_tr.py
 sentic/babel/data_ua.py
 sentic/babel/data_ur.py
+sentic/babel/__pycache__/__init__.cpython-35.pyc
+sentic/babel/__pycache__/data_pt.cpython-35.pyc

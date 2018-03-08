@@ -106,7 +106,7 @@ class SenticPhrase(SenticWord):
     def __init__(self, text, language="en", stopwords=True):
         super().__init__(language)
         if stopwords:
-            self.text = ''.join([word for word in text.lower() if word not in STOPWORDS)
+            self.text = ''.join([word for word in text.lower() if word not in STOPWORDS])
         else:
             self.text = text.lower()
 
