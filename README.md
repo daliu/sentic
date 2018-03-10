@@ -64,6 +64,7 @@ print(sp.get_polarity(text))
 
 print(sp.get_sentiment(text))
 >>> neutral
+```
 
 You can find all supported languages here: http://sentic.net/api/
 
