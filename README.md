@@ -62,21 +62,21 @@ Also, you can use other languages:
 from sentic import SenticPhrase
 text = 'amour'
 sp = SenticPhrase(text, "fr")
-print(sp.get_semantics())
+sp.get_semantics()
 >>> ['beaucoup_de_fleurs', 'montrer_l’beaucoup_de_fleurs', 'rose', 'donner_des_fleurs']
 
-print(sp.get_moodtags())
+sp.get_moodtags()
 >>> ['#intérêt', '#admiration']
 
-print(sp.get_sentics())
+sp.get_sentics()
 >>> {'aptitude': 0.071, 'sensitivity': 0.025, 'pleasantness': 0.027, 'attention': 0.093}
 
 (Unfortunately, the French dataset and some others languages do not have positive/negative labels.)
 
-print(sp.get_polarity())
+sp.get_polarity()
 >>> 0
 
-print(sp.get_sentiment())
+sp.get_sentiment()
 >>> neutral
 ```
 

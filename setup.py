@@ -6,7 +6,7 @@ except ImportError:
 packages = ['sentic', 'sentic.babel']
 
 setup(name='sentic',
-      version='0.0.5',
+      version='0.0.6',
       description='Sentic Package for NLP',
       long_description=open('README.md').read(),
       author=u'David Liu',

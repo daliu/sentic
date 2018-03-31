@@ -252,7 +252,7 @@ class SenticPhrase(SenticWord):
             count = 0
             for word in text.split():
 
-                if count > limit:
+                if count > limit and limit != -1:
                     return all_semantics
 
                 try:
