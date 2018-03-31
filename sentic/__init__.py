@@ -119,7 +119,7 @@ class SenticPhrase(SenticWord):
     def info(self, text = ""):
         # Prevent repeated computations
         if not text:
-            if not self.results:
+            if hasattr(self, "results"):
                 text = self.text
             else:
                 return self.results
