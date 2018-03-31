@@ -24,7 +24,7 @@ from sentic import SenticPhrase
 text = "Shirley is such a cute girl."
 sp = SenticPhrase(text)
 sp.info(text)
-{'sentics': {'aptitude': 0.062, 'attention': 0.3695, 'pleasantness': 0.47050000000000003, 'sensitivity': 0.0115}, 'semantics': {'furry', 'labor', 'nocturnal', 'career', 'animal_furry', 'hairy', 'police_work', 'task', 'domestic_pet', 'employment'}, 'moodtags': {'#joy': 2, '#interest': 1, '#admiration': 1}, 'sentiment': 'weak positive', 'polarity': 0.29700000000000004}
+>>> {'sentics': {'aptitude': 0.062, 'attention': 0.3695, 'pleasantness': 0.47050000000000003, 'sensitivity': 0.0115}, 'semantics': {'furry', 'labor', 'nocturnal', 'career', 'animal_furry', 'hairy', 'police_work', 'task', 'domestic_pet', 'employment'}, 'moodtags': {'#joy': 2, '#interest': 1, '#admiration': 1}, 'sentiment': 'weak positive', 'polarity': 0.29700000000000004}
 
 >>> sp.get_sentics(text)
 {'aptitude': 0.062, 'attention': 0.3695, 'pleasantness': 0.47050000000000003, 'sensitivity': 0.0115}
