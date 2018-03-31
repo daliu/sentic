@@ -120,9 +120,9 @@ class SenticPhrase(SenticWord):
         # Prevent repeated computations
         if not text:
             if hasattr(self, "results"):
-                text = self.text
-            else:
                 return self.results
+            else:
+                text = self.text
 
         result = {}
         result["sentics"] = self.get_sentics(text)
