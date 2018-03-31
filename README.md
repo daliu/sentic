@@ -26,20 +26,34 @@ sp = SenticPhrase(text)
 sp.info(text)
 >>> {'sentics': {'aptitude': 0.062, 'attention': 0.3695, 'pleasantness': 0.47050000000000003, 'sensitivity': 0.0115}, 'semantics': {'furry', 'labor', 'nocturnal', 'career', 'animal_furry', 'hairy', 'police_work', 'task', 'domestic_pet', 'employment'}, 'moodtags': {'#joy': 2, '#interest': 1, '#admiration': 1}, 'sentiment': 'weak positive', 'polarity': 0.29700000000000004}
 
->>> sp.get_sentics(text)
+>>> sp.get_sentics()
 {'aptitude': 0.062, 'attention': 0.3695, 'pleasantness': 0.47050000000000003, 'sensitivity': 0.0115}
 
->>> sp.get_moodtags(text)
+>>> sp.get_moodtags()
 {'#joy': 2, '#interest': 1, '#admiration': 1}
 
->>> sp.get_sentiment(text)
+>>> sp.get_sentiment()
 'weak positive'
 
->>> sp.get_polarity(text)
+>>> sp.get_polarity()
 0.29700000000000004
 
->>> sp.get_semantics(text)
+>>> sp.get_semantics()
 {'furry', 'labor', 'nocturnal', 'career', 'animal_furry', 'hairy', 'police_work', 'task', 'domestic_pet', 'employment'}
+```
+
+Additionally, if you want to, you can just use the same SenticPhrase class object to make method calls on other bodies of text. This manner of functionality was introduced because creating new objects for every different body of text could be cumbersome and memory-inefficient.
+
+```python
+# Word not in Sentic word set
+>>> sp.info("asdkfjalsfknqsf")
+{'polarity': 0, 'sentics': {}, 'semantics': set(), 'moodtags': {}, 'sentiment': 'neutral'}
+
+>>> sp.info("Humans are such an interesting species.")
+{'sentics': {'sensitivity': 0.0, 'aptitude': 0.2995, 'attention': -0.08550000000000002, 'pleasantness': 0.725}, 'sentiment': 'strong positive', 'semantics': set(), 'moodtags': {'#interest': 1, '#joy': 1, '#admiration': 1, '#surprise': 1}, 'polarity': 0.6165}
+
+>>> sp.get_polarity("Use same object to get polarity on another text")
+0.5683333333333334
 ```
 
 Also, you can use other languages:
@@ -48,21 +62,21 @@ Also, you can use other languages:
 from sentic import SenticPhrase
 text = 'amour'
 sp = SenticPhrase(text, "fr")
-print(sp.get_semantics(text))
+print(sp.get_semantics())
 >>> ['beaucoup_de_fleurs', 'montrer_l’beaucoup_de_fleurs', 'rose', 'donner_des_fleurs']
 
-print(sp.get_moodtags(text))
+print(sp.get_moodtags())
 >>> ['#intérêt', '#admiration']
 
-print(sp.get_sentics(text))
+print(sp.get_sentics())
 >>> {'aptitude': 0.071, 'sensitivity': 0.025, 'pleasantness': 0.027, 'attention': 0.093}
 
 (Unfortunately, the French dataset and some others languages do not have positive/negative labels.)
 
-print(sp.get_polarity(text))
+print(sp.get_polarity())
 >>> 0
 
-print(sp.get_sentiment(text))
+print(sp.get_sentiment())
 >>> neutral
 ```
 

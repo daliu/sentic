@@ -31,7 +31,7 @@ class SenticWord(object):
         data_module = importlib.import_module("sentic.babel.data_" + language)
         self.data = data_module.senticnet
 
-    def info(self, concept):
+    def info(self, concept = ""):
         """
         Return all the information about a concept: semantics,
         sentics and polarity.
@@ -45,7 +45,7 @@ class SenticWord(object):
         result["semantics"] = self.get_semantics(concept)
         return result
 
-    def get_sentics(self, concept):
+    def get_sentics(self, concept = ""):
         """
         :return dict: sentics(pleasantness, attention, sensitivity, aptitude) of a concept.
         """
@@ -58,7 +58,7 @@ class SenticWord(object):
                    "aptitude": concept_info[3]}
         return sentics
 
-    def get_moodtags(self, concept):
+    def get_moodtags(self, concept = ""):
         """
         :param concept: phrase/word to examine
         :return list: moodtags of a concept.
@@ -67,7 +67,7 @@ class SenticWord(object):
         concept_info = self.data[concept]
         return concept_info[4:6]
 
-    def get_sentiment(self, concept):
+    def get_sentiment(self, concept = ""):
         """
         :param concept: phrase/word to examine
         :return string: sentiment of a concept.
@@ -76,7 +76,7 @@ class SenticWord(object):
         concept_info = self.data[concept]
         return concept_info[6]
 
-    def get_polarity(self, concept):
+    def get_polarity(self, concept = ""):
         """
         :param concept: phrase/word to examine
         :return float: polarity of a concept, scaled from -1 (most negative) to 1 (most positive)
@@ -88,7 +88,7 @@ class SenticWord(object):
         except ValueError:
             return 0
 
-    def get_semantics(self, concept):
+    def get_semantics(self, concept = ""):
         """
         :param concept: phrase/word to examine
         :return list: Phrases/words associated with 
@@ -106,7 +106,7 @@ class SenticPhrase(SenticWord):
     We use self.is_phrase to postpone throwing KeyError too soon, when evaluating large block of text.
     We also use a 'total' counter sometimes because results may be skewed from non-words like '1, 2, 3...' etc
     """
-    def __init__(self, text, language="en", stopwords=True):
+    def __init__(self, text, language = "en", stopwords = True):
         super().__init__(language)
         if stopwords:
             self.text = ''.join([word for word in text.lower() if word not in STOPWORDS])
@@ -114,15 +114,36 @@ class SenticPhrase(SenticWord):
             self.text = text.lower()
 
         self.is_phrase = True if text in self.data else False
+        self.results = self.info(text)
 
+    def info(self, text = ""):
+        # Prevent repeated computations
+        if not text:
+            if not self.results:
+                text = self.text
+            else:
+                return self.results
 
-    def get_sentics(self, text):
+        result = {}
+        result["sentics"] = self.get_sentics(text)
+        result["moodtags"] = self.get_moodtags(text)
+        result["sentiment"] = self.get_sentiment(text)
+        result["polarity"] = self.get_polarity(text)
+        result["semantics"] = self.get_semantics(text)
+
+        return result
+
+    def get_sentics(self, text = ""):
         """
         :param text: the input string
         :return: Averaged values cross all sentics in text
         """
+        if not text:
+            text = self.text
+
         if self.is_phrase:
             return super().get_sentics(text)
+
         else:
             lst_of_sentics = {}
             total_phrases = 0.0
@@ -142,11 +163,14 @@ class SenticPhrase(SenticWord):
             return lst_of_sentics
 
 
-    def get_moodtags(self, text):
+    def get_moodtags(self, text = ""):
         """
         :param text: the input string
         :return: dictionary of moods with frequency of each in the text.
         """
+        if not text:
+            text = self.text
+
         if self.is_phrase:
             return super().get_moodtags(text)
         else:
@@ -162,14 +186,18 @@ class SenticPhrase(SenticWord):
             return mood_frequencies
 
 
-    def get_polarity(self, text):
+    def get_polarity(self, text = ""):
         """
         If text is in senticnet, use SenticWord method. Otherwise, use a cumulative average.
         :param text: the input string
         :return: 
         """
+        if not text:
+            text = self.text
+
         if self.is_phrase:
             return super().get_polarity(text)
+
         else:
             sum_polarity = 0
             total_phrases = 0.0
@@ -185,11 +213,14 @@ class SenticPhrase(SenticWord):
             else:
                 return 0
 
-    def get_sentiment(self, text):
+    def get_sentiment(self, text = ""):
         """
         :param text: the input string
         :return: sentiment of word or cumulative average across text
         """
+        if not text:
+            text = self.text
+
         polarity = self.get_polarity(text)
         if polarity > .5:
             return 'strong positive'
@@ -203,20 +234,30 @@ class SenticPhrase(SenticWord):
             return 'strong negative'
 
 
-    def get_semantics(self, text, limit = -1):
+    def get_semantics(self, text = "", limit = -1):
         """
         If text is in senticnet, use SenticWord method. Otherwise, use a cumulative average.
         :param text: the input string
+        :param limit: the 
         :return: all relevant semantics
         """
+        if not text:
+            text = self.text
+
         if self.is_phrase:
             return super().get_semantics(text)
+
         else:
             all_semantics = set()
+            count = 0
             for word in text.split():
-                associations = {}
+
+                if count > limit:
+                    return all_semantics
+
                 try:
                     all_semantics = all_semantics.union(super().get_semantics(word))
+                    count += 1
                 except KeyError:
                     continue
 
