@@ -72,9 +72,13 @@ class SenticWord(object):
         :param concept: phrase/word to examine
         :return string: sentiment of a concept.
         """
-        concept = concept.replace(" ", "_")
-        concept_info = self.data[concept]
-        return concept_info[6]
+        polarity_score = self.get_polarity(concept)
+        if polarity_score > 0:
+            return "positive" 
+        elif polarity_score < 0:
+            return "negative"
+        else:
+            return "neutral"
 
     def get_polarity(self, concept = ""):
         """
@@ -86,7 +90,10 @@ class SenticWord(object):
         try:
             return float(concept_info[7])
         except ValueError:
-            return 0
+            try:
+                return float(concept_info[6])
+            except ValueError:
+                return 0
 
     def get_semantics(self, concept = ""):
         """
@@ -98,8 +105,6 @@ class SenticWord(object):
         return concept_info[8:]
 
 
-
-
 class SenticPhrase(SenticWord):
     """
     An interface for blocks of text, holding/retrieving info.
@@ -109,7 +114,7 @@ class SenticPhrase(SenticWord):
     def __init__(self, text, language = "en", stopwords = True):
         super().__init__(language)
         if stopwords:
-            self.text = ''.join([word for word in text.lower() if word not in STOPWORDS])
+            self.text = ''.join([word for word in text.lower().split() if word not in STOPWORDS])
         else:
             self.text = text.lower()
 
