@@ -8,7 +8,7 @@ packages = ['sentic', 'sentic.babel']
 setup(name='sentic',
       version='0.0.8',
       description='Sentic Package for NLP',
-      long_description=open('README.md').read(),
+      long_description=open('README.md', 'r', encoding='utf-8-sig').read(),
       author=u'David Liu',
       author_email='7david12liu@gmail.com',
       url='https://github.com/daliu/sentic/',
