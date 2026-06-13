@@ -1,3 +1,12 @@
+0.0.9 / 06-13-26
+==================
+
+  * Updated the knowledge base to SenticNet 9 (Cambria et al., 2026)
+  * English grew from ~50k to ~293k concepts; refreshed 37 other languages to SN9 (1.4M concepts total)
+  * Relicensed under SenticNet non-commercial terms (active Sentic Membership required for commercial use)
+  * Dropped None secondary-emotion values from moodtags (introduced by the SN9 schema)
+
+
 0.0.4 / 03-07-18
 ==================
 

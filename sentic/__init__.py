@@ -25,7 +25,7 @@ STOPWORDS = ['i', 'me', 'my', 'myself', 'we', 'our',
 
 class SenticWord(object):
     """
-    Python Interface for Words/Concepts in Senticnet4
+    Python Interface for Words/Concepts in SenticNet 9
     """
     def __init__(self, language="en"):
         data_module = importlib.import_module("sentic.babel.data_" + language)
@@ -65,7 +65,9 @@ class SenticWord(object):
         """
         concept = concept.replace(" ", "_")
         concept_info = self.data[concept]
-        return concept_info[4:6]
+        # SenticNet 9 leaves the secondary emotion as None for ~40% of concepts;
+        # drop None so moodtags stay clean (and aren't counted as a mood).
+        return [mood for mood in concept_info[4:6] if mood is not None]
 
     def get_sentiment(self, concept = ""):
         """

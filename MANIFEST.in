@@ -1,3 +1,7 @@
 include README.md
 include LICENSE
-recursive-include sentic *
+recursive-include sentic *.py
+global-exclude *.pyc
+global-exclude *.pyc.icloud
+prune sentic/babel/__pycache__
+prune sentic/__pycache__

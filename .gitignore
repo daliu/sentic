@@ -1,5 +1,7 @@
 # Compiled python modules.
 *.pyc
+__pycache__/
+*.pyc.icloud
 
 # Setuptools distribution folder.
 /dist/
