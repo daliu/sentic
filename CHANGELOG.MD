@@ -5,6 +5,12 @@
   * English grew from ~50k to ~293k concepts; refreshed 37 other languages to SN9 (1.4M concepts total)
   * Relicensed under SenticNet non-commercial terms (active Sentic Membership required for commercial use)
   * Dropped None secondary-emotion values from moodtags (introduced by the SN9 schema)
+  * Made the loader schema-aware so the two languages kept on the older 12-field
+    format (Catalan, Hmong) read polarity and semantics correctly (previously the
+    first semantic was dropped and a few concepts returned a non-finite polarity)
+  * De-duplicated moodtags; fixed the unreachable "weak negative" sentiment band;
+    fixed stopword stripping that concatenated words without a separator
+  * Kept maintainer-only tooling and stale build artifacts out of the published sdist
 
 
 0.0.4 / 03-07-18

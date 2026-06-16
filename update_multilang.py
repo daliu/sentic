@@ -54,23 +54,35 @@ def repair_to_dict(raw):
                     fixed += 1
         out.append(line)
     ns = {}
+    # The distribution files are executed as Python (they are plain
+    # `senticnet[...] = [...]` assignments). We trust them because they come from
+    # the official sentic.net over HTTPS; this is maintainer-run tooling, never
+    # executed at package install or import time.
     exec(compile("".join(out), "<sn9>", "exec"), ns)
     return ns["senticnet"], fixed
 
 
 def write_canonical(path, d):
-    with open(path, "w", encoding="utf-8") as f:
+    if not d:
+        raise ValueError("refusing to write an empty senticnet dict to %s" % path)
+    # Write a sibling temp file and atomically replace, so an interrupted run
+    # never leaves a half-written (but still importable) data module in place.
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
         f.write("# -*- coding: utf-8 -*-\n")
         f.write("senticnet = {}\n")
         for k, v in d.items():
             f.write("senticnet[%r] = %r\n" % (k, v))
+    os.replace(tmp, path)
 
 
 def fetch(iso):
     # sentic.net blocks the urllib user-agent (HTTP 465), so shell out to curl.
     os.makedirs(CACHE, exist_ok=True)
     zp = os.path.join(CACHE, "senticnet_%s.zip" % iso)
-    if not os.path.exists(zp) or os.path.getsize(zp) == 0:
+    # Refetch if the cache is missing/empty OR a prior interrupted run left a
+    # partial (non-empty but truncated) zip that would otherwise be reused.
+    if not os.path.exists(zp) or os.path.getsize(zp) == 0 or not zipfile.is_zipfile(zp):
         url = "https://sentic.net/senticnet_%s.zip" % iso
         subprocess.run(["curl", "-sL", "--fail", "-o", zp, url], check=True, timeout=180)
     return zp

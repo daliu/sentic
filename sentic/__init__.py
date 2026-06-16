@@ -2,6 +2,7 @@
 
 
 import importlib
+import math
 STOPWORDS = ['i', 'me', 'my', 'myself', 'we', 'our',
              'ours', 'ourselves', 'you', 'your', 'yours',
              'yourself', 'yourselves', 'he', 'him', 'his',
@@ -66,8 +67,13 @@ class SenticWord(object):
         concept = concept.replace(" ", "_")
         concept_info = self.data[concept]
         # SenticNet 9 leaves the secondary emotion as None for ~40% of concepts;
-        # drop None so moodtags stay clean (and aren't counted as a mood).
-        return [mood for mood in concept_info[4:6] if mood is not None]
+        # the older SN4 data (ca, hm) instead repeats the primary emotion. Drop
+        # None and de-duplicate so moodtags stay clean (and aren't double-counted).
+        moods = []
+        for mood in concept_info[4:6]:
+            if mood is not None and mood not in moods:
+                moods.append(mood)
+        return moods
 
     def get_sentiment(self, concept = ""):
         """
@@ -89,13 +95,16 @@ class SenticWord(object):
         """
         concept = concept.replace(" ", "_")
         concept_info = self.data[concept]
+        # The polarity value sits at index 7 in the SenticNet 9 layout (13 fields,
+        # with a polarity label at index 6) and at index 6 in the older SenticNet 4
+        # layout (12 fields, ca/hm). Pick by length rather than catching ValueError
+        # on a semantic word, which would mis-read words like "infinity" as float.
+        idx = 7 if len(concept_info) >= 13 else 6
         try:
-            return float(concept_info[7])
-        except ValueError:
-            try:
-                return float(concept_info[6])
-            except ValueError:
-                return 0
+            value = float(concept_info[idx])
+        except (TypeError, ValueError):
+            return 0
+        return value if math.isfinite(value) else 0
 
     def get_semantics(self, concept = ""):
         """
@@ -104,7 +113,12 @@ class SenticWord(object):
         """
         concept = concept.replace(" ", "_")
         concept_info = self.data[concept]
-        return concept_info[8:]
+        # Semantics are the trailing five fields: indices 8-12 in the SenticNet 9
+        # layout (13 fields) and 7-11 in the older SenticNet 4 layout (12 fields,
+        # ca/hm, which has no polarity label). Slicing by schema length avoids
+        # dropping the first semantic for the legacy languages.
+        start = 8 if len(concept_info) >= 13 else 7
+        return concept_info[start:]
 
 
 class SenticPhrase(SenticWord):
@@ -116,7 +130,7 @@ class SenticPhrase(SenticWord):
     def __init__(self, text, language = "en", stopwords = True):
         super().__init__(language)
         if stopwords:
-            self.text = ''.join([word for word in text.lower().split() if word not in STOPWORDS])
+            self.text = ' '.join([word for word in text.lower().split() if word not in STOPWORDS])
         else:
             self.text = text.lower()
 
@@ -235,7 +249,7 @@ class SenticPhrase(SenticWord):
             return 'weak positive'
         elif polarity > -.05:
             return 'neutral'
-        elif polarity > -.05:
+        elif polarity > -.5:
             return 'weak negative'
         else:
             return 'strong negative'
