@@ -1,6 +1,6 @@
 # Sentic
 
-Python Interface for Semantic and Sentiment Analysis using Senticnet4 (http://sentic.net/).
+Python Interface for Semantic and Sentiment Analysis using SenticNet 9 (https://sentic.net/).
 
 
 ## Install
@@ -24,22 +24,22 @@ from sentic import SenticPhrase
 text = "Shirley is such a cute girl."
 sp = SenticPhrase(text)
 sp.info(text)
->>> {'sentics': {'aptitude': 0.062, 'attention': 0.3695, 'pleasantness': 0.47050000000000003, 'sensitivity': 0.0115}, 'semantics': {'furry', 'labor', 'nocturnal', 'career', 'animal_furry', 'hairy', 'police_work', 'task', 'domestic_pet', 'employment'}, 'moodtags': {'#joy': 2, '#interest': 1, '#admiration': 1}, 'sentiment': 'weak positive', 'polarity': 0.29700000000000004}
+>>> {'sentics': {'pleasantness': 0.0, 'attention': 0.0, 'sensitivity': 0.995, 'aptitude': 0.0}, 'moodtags': {'#delight': 1}, 'sentiment': 'strong positive', 'polarity': 0.995, 'semantics': {'aww', 'adore', 'petite', 'beaut', 'kute'}}
 
->>> sp.get_sentics()
-{'aptitude': 0.062, 'attention': 0.3695, 'pleasantness': 0.47050000000000003, 'sensitivity': 0.0115}
+>>> sp.get_sentics(text)
+{'pleasantness': 0.0, 'attention': 0.0, 'sensitivity': 0.995, 'aptitude': 0.0}
 
->>> sp.get_moodtags()
-{'#joy': 2, '#interest': 1, '#admiration': 1}
+>>> sp.get_moodtags(text)
+{'#delight': 1}
 
->>> sp.get_sentiment()
-'weak positive'
+>>> sp.get_sentiment(text)
+'strong positive'
 
->>> sp.get_polarity()
-0.29700000000000004
+>>> sp.get_polarity(text)
+0.995
 
->>> sp.get_semantics()
-{'furry', 'labor', 'nocturnal', 'career', 'animal_furry', 'hairy', 'police_work', 'task', 'domestic_pet', 'employment'}
+>>> sp.get_semantics(text)
+{'aww', 'adore', 'petite', 'beaut', 'kute'}
 ```
 
 Additionally, if you want to, you can just use the same SenticPhrase class object to make method calls on other bodies of text. This manner of functionality was introduced because creating new objects for every different body of text could be cumbersome and memory-inefficient.
@@ -47,13 +47,13 @@ Additionally, if you want to, you can just use the same SenticPhrase class objec
 ```python
 # Word not in Sentic word set
 >>> sp.info("asdkfjalsfknqsf")
-{'polarity': 0, 'sentics': {}, 'semantics': set(), 'moodtags': {}, 'sentiment': 'neutral'}
+{'sentics': {}, 'moodtags': {}, 'sentiment': 'neutral', 'polarity': 0, 'semantics': set()}
 
 >>> sp.info("Humans are such an interesting species.")
-{'sentics': {'sensitivity': 0.0, 'aptitude': 0.2995, 'attention': -0.08550000000000002, 'pleasantness': 0.725}, 'sentiment': 'strong positive', 'semantics': set(), 'moodtags': {'#interest': 1, '#joy': 1, '#admiration': 1, '#surprise': 1}, 'polarity': 0.6165}
+{'sentics': {'pleasantness': 0.0, 'attention': 0.0, 'sensitivity': 0.659, 'aptitude': 0.0}, 'moodtags': {'#pleasantness': 1}, 'sentiment': 'strong positive', 'polarity': 0.659, 'semantics': {'plot_twist', 'food_for_thought', 'fond', 'appreciate', 'get_eyeball'}}
 
 >>> sp.get_polarity("Use same object to get polarity on another text")
-0.5683333333333334
+0.953
 ```
 
 Also, you can use other languages:
@@ -63,21 +63,21 @@ from sentic import SenticPhrase
 text = 'amour'
 sp = SenticPhrase(text, "fr")
 sp.get_semantics()
->>> ['beaucoup_de_fleurs', 'montrer_l’beaucoup_de_fleurs', 'rose', 'donner_des_fleurs']
+>>> [‘ramjet’, ‘economiste_hellenique’, ‘armuriere’, ‘job_explore’, ‘rayonnant’]
 
 sp.get_moodtags()
->>> ['#intérêt', '#admiration']
+>>> [‘#joy’, ‘#pleasantness’]
 
 sp.get_sentics()
->>> {'aptitude': 0.071, 'sensitivity': 0.025, 'pleasantness': 0.027, 'attention': 0.093}
+>>> {‘pleasantness’: 0.659, ‘attention’: 0, ‘sensitivity’: 0.659, ‘aptitude’: 0}
 
-(Unfortunately, the French dataset and some others languages do not have positive/negative labels.)
+(In SenticNet 9, mood tags are standardized in English across all languages, and every language now carries polarity labels.)
 
 sp.get_polarity()
->>> 0
+>>> 0.659
 
 sp.get_sentiment()
->>> neutral
+>>> strong positive
 ```
 
 You can find all supported languages here: http://sentic.net/api/
@@ -90,6 +90,12 @@ SenticNet is an initiative conceived at the MIT Media Laboratory in 2010 within 
 
 Currently, both the SenticNet knowledge base and the SenticNet framework are being maintained and further developed by the Sentic Team, a multidisciplinary research group based at the School of Computer Engineering of Nanyang Technological University in Singapore, but also by many other sentic enthusiasts around the world.
 
-Please acknowledge the authors by citing SenticNet 4 in any research work or presentation containing results obtained in whole or in part through the use of the API:
+Please acknowledge the authors by citing SenticNet 9 in any research work or presentation containing results obtained in whole or in part through the use of the API:
 
-*E. Cambria, S. Poria, R. Bajpai, and B. Schuller. SenticNet 4: A semantic resource for sentiment analysis based on conceptual primitives. In: COLING, pp. 2666-2677, Osaka (2016) http://sentic.net/senticnet-4.pdf*
+*E Cambria, R Mao, X Zhang, L Xiao, T Shen, A Anand. SenticNet 9: Generative Commonsense for Emotion AI via Conceptual Primitive Discovery and Time Shift Mechanism. IEEE Transactions on Computational Social Systems 13 (2026)*
+
+## License
+
+Copyright © 2026 SenticNet.
+
+This software is provided for **non-commercial use only**. Commercial use — including selling, licensing, sublicensing, offering paid services, or integrating the Software into commercial products or services — is permitted only for users who hold an active [Sentic Membership](https://sentic.net/), or who obtain prior written permission from the copyright holder. See the [LICENSE](LICENSE) file for the full terms.

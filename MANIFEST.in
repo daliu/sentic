@@ -1,3 +1,13 @@
 include README.md
 include LICENSE
-recursive-include sentic *
+recursive-include sentic *.py
+global-exclude *.pyc
+global-exclude *.pyc.icloud
+prune sentic/babel/__pycache__
+prune sentic/__pycache__
+# keep maintainer-only tooling and old build artifacts out of the sdist
+prune dist
+exclude .gitignore
+exclude sanitize_data.py
+exclude update_multilang.py
+exclude update_script.sh
